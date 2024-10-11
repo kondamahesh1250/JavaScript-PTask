@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User Data</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 600px;
+        }
+        .main{
+            text-align: center;
+            border: 2px solid;
+            width: 350px;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 10px;
+        }
+        img{
+            border-radius: 80px;
+        }
+        h4{
+            font-style: italic;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <script>
+        let URL = "https://randomuser.me/api/";
+
+        let div = document.createElement("div");
+        div.className = "main";
+
+        let img = document.createElement("img");
+        let random = document.createElement("h2");
+        random.innerHTML = "Random User";
+        random.style.color="green";
+        let name = document.createElement("h4");
+        let email = document.createElement("h4");
+        let loc = document.createElement("h4");
+        let cou = document.createElement("h4");
+        let phone = document.createElement("h4");
+        let dob = document.createElement("h4");
+
+        fetch(URL).then(response=>response.json())
+        .then(data=>{
+            let info = data.results[0];
+            img.src = data.results[0].picture.large;
+            name.innerHTML = `Name: ${info.name.first} ${info.name.last}`;
+            email.innerHTML = `Email: ${info.email}`;
+            loc.innerHTML = `Location: ${info.location.street.number} ${info.location.street.name}`;
+            cou.innerHTML = `Country: ${info.location.state}, ${info.location.country}`;
+            phone.innerHTML =  `Phone: ${info.phone}`;
+            dob.innerHTML = `Date of Birth: ${new Date(info.dob.date).toLocaleDateString()}`;
+
+        })
+
+        div.append(random,img,name,email,loc,cou,phone,dob);
+        document.body.appendChild(div);
+    </script>
+</body>
+</html>

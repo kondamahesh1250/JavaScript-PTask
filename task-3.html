@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(220, 239, 247);
+        }
+        img{
+            display: block;
+            width: 100%;
+            transition: all 1s ease-in;
+        }
+        .main{
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 30px;
+            padding: 0 60px;
+            max-width: 1200px;         
+        }
+        .child{
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px;
+        }
+        .child:hover{
+            transform: translateY(-10px);
+            transition: all 2s ease-in;
+        }
+        .child:hover img{
+            transform: scale(1.1);
+        }
+        .author{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgb(63, 59, 59);
+            color: white;
+            font-size: 1.1rem;
+            text-align: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 10px;
+            opacity: 0;
+            transition: all 1.5s ease-in;
+
+        }
+        .child:hover .author{
+            opacity: 1;
+        }
+        h1{
+            text-align: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+    <script>
+        let URL = "https://picsum.photos/v2/list";
+
+        let title = document.createElement("h1");
+        title.innerHTML = "Image Gallery";
+
+        let div = document.createElement("div");
+        div.className = "main";
+        
+
+        fetch(URL).then(response=>response.json())
+        .then(data=>{
+
+            for(i of data){
+                let child = document.createElement("div");
+                child.className = "child";
+                let img = document.createElement("img");
+                img.src = i.download_url;
+                img.alt = i.author;
+                let author = document.createElement("div");
+                author.className = "author";
+                author.innerHTML = `By: ${i.author}`;
+                child.append(img,author);
+                div.appendChild(child);
+            }
+        })
+        document.body.append(title,div);
+    </script>
+</body>
+</html>

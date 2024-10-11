@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <style>
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 600px;
+            background-color: rgb(185, 245, 225);
+        }
+        .main{
+            text-align: center;
+            border: 2px solid;
+            width: 400px;
+            min-height: 300px;
+            border-radius: 20px;
+            box-shadow: 0px 2px 10px  rgb(163, 107, 189);
+            background-color: white;
+        }
+        .current{
+            color: green;
+        }
+        .temp{
+            color: orange;
+        }
+        .wind{
+            color: skyblue;
+            font-style: normal;
+        }
+        .weathercode{
+            font-style: italic;
+        }
+        h3{
+            font-style: italic;
+        }
+
+
+    </style>
+</head>
+<body>
+    <script>
+        let URL = "https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.6917&current_weather=true";
+
+        let div = document.createElement("div");
+        div.className = "main";
+        let title = document.createElement("h2");
+        title.className = "current";
+        title.innerHTML="Current Weather";
+
+        let temperature = document.createElement("h2");
+        temperature.className = "temp";
+        let windSpeed = document.createElement("h3");
+        windSpeed.className = "wind";
+        let weatherCode = document.createElement("h3");
+        weatherCode.className = "weathercode";
+        let observationTime = document.createElement("h3");
+        let latitude = document.createElement("h3");
+        let longitude = document.createElement(("h3"));
+        
+
+
+
+        fetch(URL).then(response=>response.json())
+        .then(data=>{
+            let weatherInfo = data.current_weather;
+            temperature.innerHTML=`Temperature: ${weatherInfo.temperature}°C`;
+            windSpeed.innerHTML=`Wind Speed: ${weatherInfo.windspeed} km/h`;
+            weatherCode.innerHTML=`Weather Code: ${weatherInfo.weathercode}`;
+            observationTime.innerHTML=`Observation Time: ${new Date}`;
+            latitude.innerHTML = `Latitude: ${data.latitude}`;
+            longitude.innerHTML = `Longitude: ${data.longitude}`
+
+        })
+
+
+
+        div.append(title,temperature,windSpeed,weatherCode,observationTime,latitude,longitude);
+        document.body.appendChild(div);
+    </script>
+</body>
+</html>
